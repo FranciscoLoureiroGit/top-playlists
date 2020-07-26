@@ -1,17 +1,15 @@
-const Song = require('../models/song.model');
+const User = require('../models/user.model');
 
 
 exports.create = function (req, res) {
-  const song = new Song({
-    title: req.body.title,
-    author: req.body.author,
-    likes: req.body.likes
+  const user = new User({
+    name: req.body.id
   });
-  song.save()
-    .then(function (createdSong) {
+  user.save()
+    .then(function (createdUser) {
       return res.status(200).json({
         status: 200,
-        data: createdSong,
+        data: createdUser,
         message: 'Success'
       });
     })
