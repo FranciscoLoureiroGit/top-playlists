@@ -3,10 +3,9 @@ const Playlist = require('../models/playlist.model');
 
 exports.create = function (req, res) {
   const playlist = new Playlist({
-    title: req.body.data.title,
-    author: req.body.data.author,
-    likes: req.body.data.likes,
-    songs: req.body.data.songs
+    title: req.body.name,
+    author: req.body.owner.id,
+    songsRef: req.body.tracks.href
   });
   playlist.save()
     .then(function (createdPlaylist) {

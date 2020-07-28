@@ -13,7 +13,11 @@ const PlaylistSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  songs: [{type: mongoose.Schema.Types.ObjectID, ref: 'song'}]
+  //songs: [{type: mongoose.Schema.Types.ObjectID, ref: 'song'}],
+  songsRef: {
+    type: String,
+    required: true
+  }
 });
 
 const Playlist = mongoose.model('Playlist', PlaylistSchema);

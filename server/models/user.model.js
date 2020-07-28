@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  playlists: [{type: mongoose.Schema.Types.ObjectID, ref: 'playlist'}]
+  //playlists: [{type: mongoose.Schema.Types.ObjectID, ref: 'playlist'}]
 });
 
 const User = mongoose.model('User', UserSchema);

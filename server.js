@@ -102,16 +102,8 @@ app.get('/callback', function(req, res) {
 
         // use the access token to access the Spotify Web API
         request.get(options, function(error, response, body) {
-          
-          let options = {
-            url: 'http://localhost:3000/api/user',
-            request: response,
-            json: true,
-            body: body
-          }
-          //register user in mongodb database
-          request.post(options, function (error, response, body) {
-          })
+          getSpotifyUserPlaylists(access_token, body);
+          saveSpotifyUser(body);
         });
 
         // we can also pass the token to the browser to make requests from there
@@ -174,3 +166,40 @@ let generateRandomString = function(length) {
   }
   return text;
 };
+
+let saveSpotifyUser = function (body) {
+  let options = {
+    url: 'http://localhost:3000/api/user',
+    json: true,
+    body: body
+  };
+
+  //register user in mongodb database
+  request.post(options, function (error, response, body) {
+  });
+}
+
+let getSpotifyUserPlaylists = function (accessToken, body) {
+  let options = {
+    url: 'https://api.spotify.com/v1/users/' + body.id + '/playlists',
+    headers: { 'Authorization': 'Bearer ' + accessToken },
+    json: true
+  }
+
+  request.get(options, function(error, response, body){
+    body.items.forEach(item => addSpotifyPlaylist(item));
+  });
+
+}
+
+let addSpotifyPlaylist = function (playlist){
+  let options = {
+    url: 'http://localhost:3000/api/playlist',
+    json: true,
+    body: playlist
+  }
+
+  //register playlist in mongodb database
+  request.post(options, function (error, response, body) {
+  });
+}
