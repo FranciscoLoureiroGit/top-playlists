@@ -59,6 +59,10 @@ app.get('/login',function (req,res) {
     }));
 })
 
+app.get('/home/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'src/app/home/home.component.html'))
+});
+
 app.get('/callback', function(req, res) {
 
   // your application requests refresh and access tokens
@@ -107,7 +111,7 @@ app.get('/callback', function(req, res) {
         });
 
         // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
+        res.redirect('/home/' +
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
@@ -150,6 +154,8 @@ app.get('/refresh_token', function(req, res) {
 server.listen(port, function () {
   console.info(`Server started on http://localhost:${port}`)
 });
+
+
 
 
 /**
