@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {User} from '../models/user.model';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -7,11 +9,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.sass']
 })
 export class HomeComponent implements OnInit {
+  private user: User;
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
+    console.log('home');
   }
 
   ngOnInit(): void {
+    this.user = this.route.snapshot.params.user;
+    console.log(this.user);
+    console.log('home');
   }
 
 }

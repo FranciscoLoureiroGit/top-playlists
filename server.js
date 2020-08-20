@@ -13,7 +13,7 @@ const client_id = '5b64d36c1f04495b86462e680c118b7d'; // Your client id
 const client_secret = 'cf0a9ba21ae34585a72b01239bbc0037'; // Your secret
 const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
 
-const app = express();
+const app = express();  //start express server
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -22,18 +22,18 @@ app.use(express.static(path.join(__dirname, 'dist/top-playlists')))
   .use(cors())
   .use(cookieParser());
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'dist/top-playlists/index.html'));
-});
+/**app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'dist/top-playlists/index.html'));  //login page
+});**/
 
-mongoose.connect('mongodb://127.0.0.1:27017/top-playlists-db');
+mongoose.connect('mongodb://127.0.0.1:27017/top-playlists-db'); //connect to db
 
 mongoose.connection.on('error', console.error.bind(console, 'Database connection error:'));
 mongoose.connection.once('open', function () {
   console.info('Successfully connected to the database');
 });
 
-app.use('/api', routes);
+app.use('/api', routes);  //api routing on server/routes folder
 
 const port = process.env.PORT || '3000';
 
@@ -59,9 +59,13 @@ app.get('/login',function (req,res) {
     }));
 })
 
-app.get('/home/*', function (req, res) {
+/*app.get('/home', function (req, res) {
   res.sendFile(path.join(__dirname, 'src/app/home/home.component.html'))
 });
+
+app.get('/my-playlists', function (req, res) {
+  res.sendFile(path.join(__dirname, 'src/app/my-playlists/my-playlists.component.html'))
+});*/
 
 app.get('/callback', function(req, res) {
 
@@ -108,14 +112,11 @@ app.get('/callback', function(req, res) {
         request.get(options, function(error, response, body) {
           getSpotifyUserPlaylists(access_token, body);
           saveSpotifyUser(body);
-        });
 
-        // we can also pass the token to the browser to make requests from there
-        res.redirect('/home/' +
-          querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token
-          }));
+          // we can also pass the user to the browser
+          res.redirect('/#' +
+            body.id);
+        });
       } else {
         res.redirect('/#' +
           querystring.stringify({
