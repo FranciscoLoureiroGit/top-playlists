@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../models/user.model';
 import {ActivatedRoute} from '@angular/router';
+import {SharedUserService} from '../services/shared-user.service';
 
 
 @Component({
@@ -9,16 +10,13 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./home.component.sass']
 })
 export class HomeComponent implements OnInit {
-  private user: User;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private sharedUser: SharedUserService) {
     console.log('home');
   }
 
   ngOnInit(): void {
-    this.user = this.route.snapshot.params.user;
-    console.log(this.user);
+    console.log(this.sharedUser.sharedUser);
     console.log('home');
   }
-
 }

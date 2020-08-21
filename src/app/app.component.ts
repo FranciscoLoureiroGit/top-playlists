@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import {Router, ActivatedRoute, ParamMap, NavigationEnd, RoutesRecognized} from '@angular/router';
+import {User} from './models/user.model';
+import {SharedUserService} from './services/shared-user.service';
+import {filter, pairwise} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +11,15 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class AppComponent implements OnInit{
   title = 'top-playlists';
-  private user: string;
+  user: User;
+  previousUrl: string;
 
   constructor(
     private router: Router,
-  ) {}
+    private sharedUser: SharedUserService,
+  ) {
+    console.log(this.sharedUser.sharedUser);
+  }
 
   onClick(): void {
     window.location.href = '/login';
@@ -20,10 +27,23 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     const href = window.location.href;
-    const user = href.split('#')[1];
+    console.log(this.sharedUser.sharedUser);
 
-    if (user != null){
-      this.router.navigate(['/home']).then(r => console.log('ok'));
+    if (this.sharedUser.sharedUser === undefined){
+      this.sharedUser.sharedUser = new User();
+      this.user = this.sharedUser.sharedUser;
+
+      try {
+        this.user.name = href.split('#')[1];
+        this.sharedUser.sharedUser.name = this.user.name;
+
+        if (this.user.name != null && this.user.name !== 'carouselExampleIndicators'){
+          this.router.navigate(['/home']).then(r => console.log('ok'));
+        }
+      }
+      catch (error){
+        console.log(error);
+      }
     }
   }
 }
