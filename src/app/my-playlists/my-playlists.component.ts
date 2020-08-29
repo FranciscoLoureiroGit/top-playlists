@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {PlaylistsService} from '../services/playlists.service';
 import {Playlist} from '../models/playlist.model';
+import {SharedUserService} from '../services/shared-user.service';
 
 @Component({
   selector: 'app-my-playlists',
@@ -11,14 +12,14 @@ import {Playlist} from '../models/playlist.model';
 export class MyPlaylistsComponent implements OnInit {
   private playlists: Playlist[];
 
-  constructor(private service: PlaylistsService) { }
+  constructor(private service: PlaylistsService,
+              private sharedUser: SharedUserService) { }
 
   ngOnInit(): void {
-    this.service.getMyPlaylists(name)
+    this.service.getMyPlaylists(this.sharedUser.sharedUser.name)
       .subscribe(data => {
         this.playlists = data;
+        console.log(this.playlists);
       });
-
-    console.log('home');
   }
 }

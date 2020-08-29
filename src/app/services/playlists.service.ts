@@ -22,6 +22,7 @@ export class PlaylistsService {
   }
 
   public getMyPlaylists(name): Observable<Playlist[]> {
+    console.log(`${this.playlistsUrl}/${name}`);
     return this.http.get<Playlist[]>(`${this.playlistsUrl}/${name}`);
   }
 }
