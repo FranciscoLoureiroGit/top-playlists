@@ -10,7 +10,7 @@ import {SharedUserService} from '../services/shared-user.service';
   providers: [PlaylistsService]
 })
 export class MyPlaylistsComponent implements OnInit {
-  private playlists: Playlist[];
+  playlists: Playlist[];
 
   constructor(private service: PlaylistsService,
               private sharedUser: SharedUserService) { }

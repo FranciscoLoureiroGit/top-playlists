@@ -20,6 +20,9 @@ const PlaylistSchema = new mongoose.Schema({
   }
 });
 
+//combination of title and author as unique
+PlaylistSchema.index({'title': 1, 'author': 1}, {unique: true});
+
 const Playlist = mongoose.model('Playlist', PlaylistSchema);
 
 module.exports = Playlist;

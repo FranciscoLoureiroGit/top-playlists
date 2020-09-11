@@ -33,21 +33,20 @@
   </div>
 </nav>
 
-<body>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm">
-        One of three columns
-      </div>
-      <div class="col-sm">
-        One of three columns
-      </div>
-      <div class="col-sm">
-        One of three columns
-      </div>
-    </div>
-  </div>
-</body>
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">Title</th>
+    <th scope="col">Number of likes</th>
+
+  </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of playlists;">
+      <td>{{data.title}}</td>
+      <td>{{data.likes}}</td>
+  </tbody>
+</table>
 
 <router-outlet></router-outlet>
 
